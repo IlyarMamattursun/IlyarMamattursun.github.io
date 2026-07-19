@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kashgar.sh — ilyar.exe</title>
+  <meta name="description" content="伊力亚尔·麦麦提图尔荪 — 逃逸确定性的系统拆解者。从喀什开始执行的人生脚本。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- CRT 叠加层 -->
+  <div class="crt-scanlines"></div>
+  <div class="crt-noise"></div>
+  <div class="crt-vignette"></div>
+
+  <!-- 启动画面 -->
+  <div id="boot-screen">
+    <pre id="boot-log"></pre>
+    <div id="boot-hint" class="hidden">[ press <span class="boot-key">ENTER</span> / 点击任意处 to boot ]</div>
+  </div>
+
+  <!-- 主终端 -->
+  <div id="terminal" class="hidden">
+    <!-- 顶栏 -->
+    <header class="term-header">
+      <div class="term-title">
+        <span class="term-dot dot-r"></span>
+        <span class="term-dot dot-y"></span>
+        <span class="term-dot dot-g"></span>
+        <span class="title-text">ESC:// v1.0 — ilyar@kashgar — uptime: 23y</span>
+      </div>
+      <nav class="cmd-nav" id="cmd-nav">
+        <button data-cmd="whoami">whoami</button>
+        <button data-cmd="journey">journey</button>
+        <button data-cmd="drinks">drinks</button>
+        <button data-cmd="music">music</button>
+        <button data-cmd="work">work</button>
+        <button data-cmd="career">career</button>
+        <button data-cmd="contact">contact</button>
+        <button data-cmd="help">help</button>
+      </nav>
+    </header>
+
+    <!-- 状态条 -->
+    <div class="status-strip">
+      <span class="status-item"><span class="status-label">NOW</span><span id="status-now">2026.07 · 南京 · 满帮校招培训 · 算法训练营 W1 刚结束</span></span>
+      <span class="status-sep">│</span>
+      <span class="status-item"><span class="status-label">ON REPEAT</span><span id="status-music">Joji — SLOW DANCING IN THE DARK</span></span>
+      <span class="status-sep">│</span>
+      <span class="status-item"><span class="status-label">WATCHED</span><span id="status-read">风骚律师 · 完结</span></span>
+      <span class="status-sep">│</span>
+      <span class="status-item"><span class="status-label">COURT</span><span id="status-court">网球 · 周末</span></span>
+    </div>
+
+    <!-- 输出区（文本类命令） -->
+    <main id="output"></main>
+
+    <!-- 迁徙地图面板 -->
+    <section id="map-section" class="panel hidden">
+      <div class="panel-header">
+        <span class="panel-prompt">> journey --map</span>
+        <span class="panel-hint">点击节点展开故事 · 飞线 = 迁徙轨迹</span>
+      </div>
+      <div class="map-wrap">
+        <svg id="china-map" viewBox="0 0 1000 720" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-strong" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- 中国轮廓（简化） -->
+          <path id="china-outline" d="M 120 350 L 200 195 L 280 150 L 400 135 L 560 105 L 680 85 L 770 120 L 815 175 L 835 240 L 805 285 L 825 340 L 845 395 L 855 445 L 835 495 L 800 540 L 755 575 L 690 595 L 620 600 L 540 585 L 460 555 L 380 525 L 270 495 L 190 455 L 135 410 Z" />
+          <!-- 海南岛 -->
+          <path id="hainan" d="M 660 635 L 690 625 L 705 645 L 685 660 L 660 655 Z" />
+          <!-- 节点和飞线由 JS 动态生成 -->
+          <g id="map-routes"></g>
+          <g id="map-nodes"></g>
+          <g id="map-labels"></g>
+        </svg>
+        <div id="map-legend" class="map-legend">
+          <div class="legend-item"><span class="legend-dot legend-origin"></span>原点</div>
+          <div class="legend-item"><span class="legend-dot legend-past"></span>途经</div>
+          <div class="legend-item"><span class="legend-dot legend-now"></span>当前</div>
+        </div>
+      </div>
+      <div id="node-detail" class="node-detail"></div>
+    </section>
+
+    <!-- 歌单面板 -->
+    <section id="music-section" class="panel hidden">
+      <div class="panel-header">
+        <span class="panel-prompt">> music --visualize</span>
+        <span class="panel-hint">68 首歌 · 乱序排列 · Joji 是锚点 · hover 显形</span>
+      </div>
+      <div class="music-wrap">
+        <canvas id="music-canvas"></canvas>
+        <div id="song-tooltip" class="song-tooltip hidden"></div>
+      </div>
+      <div class="music-stats">
+        <span>共 68 首</span>
+        <span>Joji ×6</span>
+        <span>Imagine Dragons ×3</span>
+        <span>Taylor Swift ×2</span>
+        <span>Billie Eilish ×2</span>
+        <span>Adele ×2</span>
+        <span class="music-quote">「real music 是情绪索引 — 每首歌标记一段特定的时间和地点」</span>
+      </div>
+    </section>
+
+    <!-- 命令行 -->
+    <footer class="cmd-line">
+      <span class="prompt">ilyar@kashgar:~$</span>
+      <input id="cmd-input" type="text" autocomplete="off" spellcheck="false" placeholder="输入命令… 试试 help" />
+      <span class="cursor-blink">▋</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
