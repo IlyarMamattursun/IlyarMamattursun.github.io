@@ -788,6 +788,34 @@ function init() {
   document.addEventListener("keydown", tryEnter);
   bindNav();
   bindInput();
+  initImageLoader();
+}
+
+// ===== 图片加载占位：加载完成后淡入，停止扫描动画 =====
+function initImageLoader() {
+  const markReady = (img) => {
+    if (!img || !img.src) return;
+    img.classList.add("img-ready");
+    // 给父容器也标记（容器持有 shimmer 背景）
+    let p = img.parentElement;
+    if (p && (p.classList.contains("tl-thumb") || p.classList.contains("gallery-thumb"))) {
+      p.classList.add("img-ready");
+    }
+  };
+  // capture 阶段监听 load（img 的 load 不冒泡），覆盖动态渲染的图片
+  document.addEventListener("load", (e) => {
+    if (e.target && e.target.tagName === "IMG") markReady(e.target);
+  }, true);
+  // 处理已缓存/已加载完的图片
+  const sweep = () => {
+    document.querySelectorAll("img").forEach((img) => {
+      if (img.complete && img.naturalWidth > 0) markReady(img);
+    });
+  };
+  // 命令输出后、面板渲染后各扫一次
+  const obs = new MutationObserver(() => sweep());
+  obs.observe(document.body, { childList: true, subtree: true });
+  sweep();
 }
 
 document.addEventListener("DOMContentLoaded", init);

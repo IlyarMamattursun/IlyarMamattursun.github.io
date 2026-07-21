@@ -875,3 +875,59 @@ html, body {
   }
   .crt-noise { animation: none; }
 }
+
+/* ============================================
+   图片加载占位（终端扫描线风格）
+   ============================================ */
+/* 所有站点图片默认透明，加载后淡入 */
+.id-avatar,
+.tl-thumb,
+.gallery-thumb,
+.nd-gallery img,
+.stage-gallery img,
+.lb-img {
+  background: linear-gradient(
+    100deg,
+    rgba(232,168,56,0.03) 30%,
+    rgba(232,168,56,0.12) 50%,
+    rgba(232,168,56,0.03) 70%
+  );
+  background-size: 200% 100%;
+  animation: imgScan 1.4s ease-in-out infinite;
+}
+.id-avatar,
+.tl-thumb img,
+.gallery-thumb img,
+.nd-gallery img,
+.stage-gallery img,
+.lb-img {
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.id-avatar.img-ready,
+.tl-thumb.img-ready,
+.gallery-thumb.img-ready,
+.nd-gallery .img-ready,
+.stage-gallery .img-ready,
+.lb-img.img-ready {
+  animation: none;
+  background: none;
+}
+.id-avatar.img-ready,
+.tl-thumb.img-ready img,
+.gallery-thumb.img-ready img,
+.nd-gallery .img-ready,
+.stage-gallery .img-ready,
+.lb-img.img-ready {
+  opacity: 1;
+}
+@keyframes imgScan {
+  0% { background-position: 150% 0; }
+  100% { background-position: -50% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .id-avatar, .tl-thumb, .gallery-thumb, .nd-gallery img, .stage-gallery img, .lb-img {
+    animation: none;
+    background: rgba(232,168,56,0.05);
+  }
+}
