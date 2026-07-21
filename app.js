@@ -309,8 +309,17 @@ const COMMANDS = {
         </div>
       </div>
       <div class="whoami-card creed-card">
-        <div class="creed-label">// 人生信条</div>
-        <div class="creed-text">真正的稳定不是站在永不变化的地方，<br>而是无论站在哪里，<span class="hl-soft">都有让生活生根发芽的能力</span>。</div>
+        <div class="creed-quote-mark creed-quote-left">"</div>
+        <div class="creed-body">
+          <div class="creed-label">// 人生信条</div>
+          <div class="creed-text">
+            真正的稳定<br>
+            不是站在永不变化的地方<br>
+            而是无论站在哪里<span class="creed-em">，</span><br>
+            <span class="creed-highlight">都有让生活生根发芽的能力</span>
+          </div>
+        </div>
+        <div class="creed-quote-mark creed-quote-right">"</div>
       </div>
     </div>
   </div>`,
