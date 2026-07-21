@@ -35,7 +35,6 @@
       <nav class="cmd-nav" id="cmd-nav">
         <button data-cmd="whoami">whoami</button>
         <button data-cmd="journey">journey</button>
-        <button data-cmd="drinks">drinks</button>
         <button data-cmd="music">music</button>
         <button data-cmd="work">work</button>
         <button data-cmd="career">career</button>
@@ -58,11 +57,11 @@
     <!-- 输出区（文本类命令） -->
     <main id="output"></main>
 
-    <!-- 迁徙地图面板 -->
+    <!-- 迁徙地图 + 时间线面板 -->
     <section id="map-section" class="panel hidden">
       <div class="panel-header">
         <span class="panel-prompt">> journey --map</span>
-        <span class="panel-hint">点击节点展开故事 · 飞线 = 迁徙轨迹</span>
+        <span class="panel-hint">点击节点跳转故事 · 飞线 = 迁徙轨迹</span>
       </div>
       <div class="map-wrap">
         <svg id="china-map" viewBox="0 0 1000 720" preserveAspectRatio="xMidYMid meet">
@@ -76,11 +75,8 @@
               <feMerge><feMergeNode in="blur"/><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
-          <!-- 中国轮廓（简化） -->
           <path id="china-outline" d="M 120 350 L 200 195 L 280 150 L 400 135 L 560 105 L 680 85 L 770 120 L 815 175 L 835 240 L 805 285 L 825 340 L 845 395 L 855 445 L 835 495 L 800 540 L 755 575 L 690 595 L 620 600 L 540 585 L 460 555 L 380 525 L 270 495 L 190 455 L 135 410 Z" />
-          <!-- 海南岛 -->
           <path id="hainan" d="M 660 635 L 690 625 L 705 645 L 685 660 L 660 655 Z" />
-          <!-- 节点和飞线由 JS 动态生成 -->
           <g id="map-routes"></g>
           <g id="map-nodes"></g>
           <g id="map-labels"></g>
@@ -91,28 +87,16 @@
           <div class="legend-item"><span class="legend-dot legend-now"></span>当前</div>
         </div>
       </div>
-      <div id="node-detail" class="node-detail"></div>
+      <div id="timeline-wrap" class="timeline-wrap"></div>
     </section>
 
-    <!-- 歌单面板 -->
+    <!-- 音乐播放器面板 -->
     <section id="music-section" class="panel hidden">
       <div class="panel-header">
-        <span class="panel-prompt">> music --visualize</span>
-        <span class="panel-hint">68 首歌 · 乱序排列 · Joji 是锚点 · hover 显形</span>
+        <span class="panel-prompt">> music --play</span>
+        <span class="panel-hint">68 首 · 点击列表播放 · Joji ★</span>
       </div>
-      <div class="music-wrap">
-        <canvas id="music-canvas"></canvas>
-        <div id="song-tooltip" class="song-tooltip hidden"></div>
-      </div>
-      <div class="music-stats">
-        <span>共 68 首</span>
-        <span>Joji ×6</span>
-        <span>Imagine Dragons ×3</span>
-        <span>Taylor Swift ×2</span>
-        <span>Billie Eilish ×2</span>
-        <span>Adele ×2</span>
-        <span class="music-quote">「real music 是情绪索引 — 每首歌标记一段特定的时间和地点」</span>
-      </div>
+      <div id="player-wrap" class="player-wrap"></div>
     </section>
 
     <!-- 命令行 -->
@@ -123,6 +107,6 @@
     </footer>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=20260721"></script>
 </body>
 </html>

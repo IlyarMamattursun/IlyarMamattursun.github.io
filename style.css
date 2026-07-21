@@ -200,12 +200,19 @@ html, body {
   padding-top: 0.4rem; padding-bottom: 0.4rem;
 }
 
-/* whoami 卡片 */
-.id-card {
+/* whoami 网格布局 */
+.whoami-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1rem; margin: 1rem 0;
+}
+.whoami-card {
+  background: var(--bg-panel); border: 1px solid var(--line);
+  border-radius: 6px; padding: 1.3rem;
+}
+.whoami-card.id-card {
+  grid-column: 1 / -1;
   display: grid; grid-template-columns: auto 1fr;
   gap: 1.5rem; align-items: start;
-  background: var(--bg-panel); border: 1px solid var(--line);
-  border-radius: 6px; padding: 1.3rem; margin-bottom: 1.2rem;
 }
 .id-avatar {
   width: 110px; height: 146px; border-radius: 4px;
@@ -217,8 +224,9 @@ html, body {
   font-size: 20px; color: var(--amber-bright); margin-bottom: 0.2rem;
   font-weight: 700;
 }
-.id-info .id-en { color: var(--text-dim); font-size: 13px; margin-bottom: 0.7rem; letter-spacing: 0.03em; }
-.id-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.7rem; }
+.id-info .id-en { color: var(--text-dim); font-size: 13px; margin-bottom: 0.3rem; letter-spacing: 0.03em; }
+.id-info .id-meta { color: var(--text-faint); font-size: 12px; margin-bottom: 0.7rem; }
+.id-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .id-tag {
   font-size: 11px; padding: 2px 9px; border-radius: 3px;
   border: 1px solid var(--amber-faint); color: var(--text);
@@ -226,35 +234,49 @@ html, body {
 }
 .id-tag.tag-intj { color: var(--accent-blue); border-color: rgba(91,157,201,0.4); }
 .id-tag.tag-joji { color: var(--joji); border-color: rgba(255,126,182,0.4); }
-.id-bio { font-size: 13.5px; color: var(--text); line-height: 1.7; }
-.id-bio .hl { color: var(--amber-bright); }
 
-/* 故事卡（drinks / work 等） */
-.story-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem; margin: 1rem 0;
+.card-label {
+  color: var(--amber); font-size: 12px; letter-spacing: 0.06em;
+  margin-bottom: 0.8rem; text-transform: uppercase;
+  border-bottom: 1px solid var(--line-soft); padding-bottom: 0.4rem;
 }
-.story-card {
-  background: var(--bg-panel); border: 1px solid var(--line);
-  border-radius: 6px; padding: 1.1rem;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+.info-list { list-style: none; }
+.info-list li {
+  display: grid; grid-template-columns: 60px 1fr;
+  gap: 0.8rem; padding: 0.4rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 13px;
 }
-.story-card:hover {
-  border-color: var(--amber-dim);
-  transform: translateY(-2px);
+.info-list li:last-child { border-bottom: none; }
+.info-k { color: var(--text-faint); }
+.info-v { color: var(--text); }
+.info-v .hl { color: var(--amber-bright); }
+
+.hobby-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+.hobby-item {
+  background: var(--bg-soft); border: 1px solid var(--line);
+  border-radius: 4px; overflow: hidden;
+  transition: border-color 0.2s ease;
 }
-.story-card h3 {
-  color: var(--amber-bright); font-size: 15px; margin-bottom: 0.5rem;
-  display: flex; align-items: center; gap: 0.5rem;
+.hobby-item:hover { border-color: var(--amber-dim); }
+.hobby-item img {
+  width: 100%; height: 100px; object-fit: cover;
+  filter: sepia(0.2) brightness(0.9);
+  transition: filter 0.2s ease;
 }
-.story-card .card-meta { font-size: 11px; color: var(--text-faint); margin-bottom: 0.6rem; }
-.story-card p { font-size: 13.5px; color: var(--text); line-height: 1.7; margin-bottom: 0.5rem; }
-.story-card .card-img {
-  width: 100%; border-radius: 4px; margin: 0.6rem 0;
-  border: 1px solid var(--line); max-height: 200px; object-fit: cover;
-  filter: sepia(0.2) brightness(0.92);
+.hobby-item:hover img { filter: none; }
+.hobby-text { padding: 0.6rem 0.8rem; }
+.hobby-name { color: var(--amber-bright); font-size: 14px; margin-bottom: 0.2rem; }
+.hobby-desc { color: var(--text-dim); font-size: 11.5px; line-height: 1.5; }
+
+.shows-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.show-tag {
+  padding: 4px 12px; border-radius: 3px;
+  background: rgba(232,168,56,0.06); border: 1px solid var(--amber-faint);
+  color: var(--text); font-size: 13px;
+  transition: all 0.2s ease;
 }
-.story-card .card-quote { color: var(--text-dim); font-style: italic; font-size: 12.5px; border-left: 2px solid var(--amber-faint); padding-left: 0.7rem; margin-top: 0.5rem; }
+.show-tag:hover { border-color: var(--amber); color: var(--amber-bright); }
 
 /* work 板块 */
 .work-timeline { position: relative; padding-left: 1.5rem; margin: 1rem 0; }
@@ -356,6 +378,17 @@ html, body {
   transition: filter 0.2s ease;
 }
 .stage-gallery img:hover { filter: none; }
+.career-gallery-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.5rem; margin-top: 0.9rem;
+}
+.gallery-thumb { cursor: zoom-in; overflow: hidden; border-radius: 4px; border: 1px solid var(--line); }
+.gallery-thumb img {
+  width: 100%; height: 110px; object-fit: cover; display: block;
+  filter: sepia(0.15) brightness(0.9);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.gallery-thumb:hover img { filter: none; transform: scale(1.04); }
 
 /* contact */
 .contact-grid {
@@ -462,62 +495,235 @@ html, body {
 }
 @keyframes fly-dash { to { stroke-dashoffset: -28; } }
 
-/* 节点详情 */
-.node-detail {
+/* ============================================
+   时间线（journey 下方）
+   ============================================ */
+.timeline-wrap {
+  margin-top: 1.5rem; position: relative;
+  padding-left: 2rem;
+}
+.timeline-wrap::before {
+  content: ''; position: absolute; left: 7px; top: 0; bottom: 0;
+  width: 1px; background: var(--line);
+}
+.tl-node {
+  position: relative; margin-bottom: 2rem;
+  scroll-margin-top: 120px;
+  transition: opacity 0.3s ease;
+}
+.tl-rail { position: absolute; left: -2rem; top: 0; width: 16px; height: 100%; }
+.tl-dot {
+  position: absolute; left: 0; top: 6px;
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--bg); border: 2px solid var(--amber-dim);
+  transform: translateX(-50%);
+}
+.tl-dot-origin { border-color: var(--amber); background: var(--amber); box-shadow: 0 0 10px var(--amber); }
+.tl-dot-now { border-color: var(--joji); background: var(--joji); box-shadow: 0 0 12px var(--joji-glow); animation: pulse-career 1.6s ease-out infinite; }
+.tl-node.highlight .tl-content { border-color: var(--amber-bright); box-shadow: 0 0 20px rgba(232,168,56,0.2); }
+.tl-content {
   background: var(--bg-panel); border: 1px solid var(--line);
-  border-radius: 6px; padding: 1.3rem; margin-top: 1rem;
-  min-height: 80px;
+  border-radius: 6px; padding: 1.2rem 1.4rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
-.node-detail .nd-empty { color: var(--text-faint); font-size: 13px; text-align: center; padding: 1rem; }
-.nd-header { display: flex; align-items: baseline; gap: 0.7rem; margin-bottom: 0.8rem; flex-wrap: wrap; }
-.nd-place { color: var(--amber-bright); font-size: 18px; font-weight: 700; }
-.nd-period { color: var(--text-dim); font-size: 13px; }
-.nd-tag { font-size: 11px; padding: 1px 8px; border-radius: 3px; background: rgba(232,168,56,0.1); color: var(--amber); }
-.nd-body { color: var(--text); font-size: 14px; line-height: 1.75; }
-.nd-body p { margin-bottom: 0.6rem; }
-.nd-body .hl { color: var(--amber-bright); }
-.nd-gallery { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.8rem; }
-.nd-gallery img {
-  width: 130px; height: 95px; object-fit: cover;
-  border-radius: 4px; border: 1px solid var(--line);
-  cursor: zoom-in; filter: sepia(0.15) brightness(0.93);
-  transition: filter 0.2s ease;
+.tl-header {
+  display: flex; align-items: baseline; gap: 0.7rem;
+  flex-wrap: wrap; margin-bottom: 0.3rem;
 }
-.nd-gallery img:hover { filter: none; }
-.nd-video { width: 100%; max-width: 400px; border-radius: 4px; border: 1px solid var(--line); margin-top: 0.8rem; }
+.tl-place { color: var(--amber-bright); font-size: 18px; font-weight: 700; }
+.tl-period { color: var(--text-dim); font-size: 13px; }
+.tl-tag { font-size: 11px; padding: 1px 8px; border-radius: 3px; background: rgba(232,168,56,0.1); color: var(--amber); }
+.tl-node:last-child .tl-tag { background: rgba(255,126,182,0.1); color: var(--joji); }
+.tl-title { color: var(--text); font-size: 14px; margin-bottom: 0.6rem; font-style: italic; }
+.tl-body { color: var(--text); font-size: 13.5px; line-height: 1.75; }
+.tl-body p { margin-bottom: 0.6rem; }
+.tl-body .hl { color: var(--amber-bright); }
+.tl-gallery {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.5rem; margin-top: 0.9rem;
+}
+.tl-thumb { cursor: zoom-in; overflow: hidden; border-radius: 4px; border: 1px solid var(--line); }
+.tl-thumb img {
+  width: 100%; height: 100px; object-fit: cover; display: block;
+  filter: sepia(0.15) brightness(0.9);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+.tl-thumb:hover img { filter: none; transform: scale(1.04); }
+.tl-video-wrap { margin-top: 0.9rem; }
+.tl-video-wrap video { width: 100%; max-width: 420px; border-radius: 4px; border: 1px solid var(--line); }
+
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  display: none; align-items: center; justify-content: center;
+  padding: 2rem;
+}
+.lightbox.show { display: flex; }
+.lb-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.92); backdrop-filter: blur(4px);
+}
+.lb-img {
+  position: relative; max-width: 90vw; max-height: 88vh;
+  border-radius: 6px; border: 1px solid var(--amber-dim);
+  box-shadow: 0 0 40px rgba(232,168,56,0.2);
+}
+.lb-close {
+  position: absolute; top: 1.5rem; right: 2rem; z-index: 1;
+  background: rgba(10,8,5,0.8); border: 1px solid var(--amber-dim);
+  color: var(--amber-bright); font-size: 24px;
+  width: 40px; height: 40px; border-radius: 50%;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s ease;
+}
+.lb-close:hover { background: var(--amber-dim); color: var(--bg); }
 
 /* ============================================
-   歌单时间轴
+   音乐播放器
    ============================================ */
-.music-wrap {
-  position: relative; background: var(--bg-panel);
-  border: 1px solid var(--line); border-radius: 6px;
-  overflow: hidden; min-height: 340px;
+.player-wrap {
+  background: var(--bg-panel); border: 1px solid var(--line);
+  border-radius: 6px; padding: 1.2rem; overflow: hidden;
 }
-#music-canvas { display: block; width: 100%; height: 340px; cursor: crosshair; }
-.song-tooltip {
-  position: absolute; pointer-events: none; z-index: 10;
-  background: rgba(10,8,5,0.95); border: 1px solid var(--amber-dim);
-  border-radius: 4px; padding: 0.5rem 0.8rem;
-  font-size: 12.5px; color: var(--text);
-  white-space: nowrap; transform: translate(-50%, -130%);
-  box-shadow: 0 4px 14px rgba(0,0,0,0.5);
+.player-layout {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.2rem; min-height: 400px;
 }
-.song-tooltip .tt-title { color: var(--amber-bright); }
-.song-tooltip .tt-artist { color: var(--text-dim); font-size: 11.5px; }
-.song-tooltip.joji { border-color: var(--joji); }
-.song-tooltip.joji .tt-title { color: var(--joji); }
 
-.music-stats {
-  display: flex; flex-wrap: wrap; gap: 0.5rem 1rem;
-  margin-top: 0.7rem; font-size: 11.5px; color: var(--text-dim);
-  align-items: center;
+/* 播放列表 */
+.playlist {
+  background: var(--bg-soft); border: 1px solid var(--line);
+  border-radius: 4px; overflow: hidden;
+  display: flex; flex-direction: column;
 }
-.music-stats span:not(.music-quote) {
-  padding: 2px 8px; background: rgba(232,168,56,0.05);
-  border-radius: 3px; border: 1px solid var(--line-soft);
+.pl-header {
+  padding: 0.7rem 0.9rem; font-size: 11px; color: var(--text-faint);
+  letter-spacing: 0.06em; border-bottom: 1px solid var(--line);
+  background: rgba(232,168,56,0.03);
 }
-.music-quote { color: var(--text-faint); font-style: italic; margin-left: auto; font-size: 11px; }
+.pl-list {
+  overflow-y: auto; max-height: 460px;
+  scrollbar-width: thin;
+}
+.pl-item {
+  display: grid; grid-template-columns: 28px 1fr auto;
+  gap: 0.5rem; align-items: center;
+  padding: 0.5rem 0.9rem; cursor: pointer;
+  border-bottom: 1px solid var(--line-soft);
+  transition: background 0.15s ease;
+}
+.pl-item:hover { background: rgba(232,168,56,0.06); }
+.pl-item.active { background: rgba(232,168,56,0.1); }
+.pl-item.joji .pl-title { color: var(--joji); }
+.pl-num { color: var(--text-faint); font-size: 11px; text-align: right; }
+.pl-title { color: var(--text); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pl-artist { color: var(--text-dim); font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100px; }
+.pl-badge { color: var(--joji); font-size: 12px; }
+.pl-item.active .pl-title { color: var(--amber-bright); }
+
+/* 播放器主面板 */
+.player-main {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 1rem; padding: 1rem;
+}
+
+/* 唱片 */
+.vinyl-wrap { perspective: 600px; }
+.vinyl {
+  width: 180px; height: 180px; border-radius: 50%;
+  background: radial-gradient(circle at center,
+    #1a1410 0%, #1a1410 22%,
+    #0d0a07 23%, #0d0a07 100%);
+  border: 1px solid var(--amber-faint);
+  position: relative;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6), inset 0 0 20px rgba(232,168,56,0.08);
+}
+.vinyl-grooves {
+  position: absolute; inset: 28%; border-radius: 50%;
+  background: repeating-radial-gradient(circle at center,
+    transparent 0px, transparent 2px,
+    rgba(232,168,56,0.05) 2px, rgba(232,168,56,0.05) 3px);
+}
+.vinyl-label {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--amber);
+  color: var(--bg); font-size: 24px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 16px rgba(232,168,56,0.4);
+}
+.vinyl-label.joji { background: var(--joji); box-shadow: 0 0 16px var(--joji-glow); }
+.vinyl.spinning { animation: spin 4s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 当前播放信息 */
+.now-playing { text-align: center; }
+.np-title { color: var(--amber-bright); font-size: 16px; font-weight: 500; margin-bottom: 0.2rem; }
+.np-artist { color: var(--text-dim); font-size: 12.5px; }
+
+/* 频谱 */
+.spectrum {
+  display: flex; align-items: flex-end; justify-content: center;
+  gap: 3px; height: 40px; width: 100%; max-width: 280px;
+}
+.spectrum .bar {
+  width: 4px; height: 4px;
+  background: var(--amber-dim); border-radius: 2px;
+  transition: height 0.1s ease;
+}
+.spectrum.active .bar {
+  background: var(--amber);
+  animation: bar-bounce 0.6s ease-in-out infinite alternate;
+}
+@keyframes bar-bounce {
+  0% { height: 4px; }
+  100% { height: 36px; }
+}
+
+/* 进度条 */
+.progress-wrap {
+  display: flex; align-items: center; gap: 0.6rem;
+  width: 100%; max-width: 320px;
+}
+.time-current, .time-total { color: var(--text-dim); font-size: 11px; min-width: 32px; }
+.progress-bar {
+  flex: 1; height: 4px; background: var(--line);
+  border-radius: 2px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--amber-dim), var(--amber-bright));
+  border-radius: 2px; transition: width 0.3s linear;
+}
+
+/* 控制按钮 */
+.controls { display: flex; align-items: center; gap: 1rem; }
+.ctrl-btn {
+  background: transparent; border: 1px solid var(--line);
+  color: var(--text-dim); cursor: pointer;
+  width: 36px; height: 36px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; transition: all 0.2s ease;
+}
+.ctrl-btn:hover { border-color: var(--amber); color: var(--amber-bright); }
+.ctrl-btn.ctrl-play {
+  width: 48px; height: 48px; font-size: 18px;
+  border-color: var(--amber-dim); color: var(--amber-bright);
+  background: rgba(232,168,56,0.08);
+}
+.ctrl-btn.ctrl-play:hover {
+  background: var(--amber); color: var(--bg);
+  box-shadow: 0 0 16px rgba(232,168,56,0.4);
+}
+
+/* 搜索链接 */
+.search-link {
+  color: var(--text-dim); font-size: 11.5px;
+  text-decoration: none; border-bottom: 1px dashed var(--line);
+  padding-bottom: 1px; transition: color 0.2s ease;
+}
+.search-link:hover { color: var(--amber-bright); }
 
 /* ============================================
    命令行
@@ -552,21 +758,28 @@ html, body {
   .cmd-nav button { white-space: nowrap; flex-shrink: 0; }
   .status-strip { font-size: 10.5px; gap: 0.2rem 0.5rem; }
   .status-sep { display: none; }
-  .id-card { grid-template-columns: 1fr; }
+  .whoami-grid { grid-template-columns: 1fr; }
+  .whoami-card.id-card { grid-template-columns: 1fr; }
   .id-avatar { width: 90px; height: 120px; margin: 0 auto; }
   .id-info { text-align: center; }
   .id-tags { justify-content: center; }
+  .hobby-grid { grid-template-columns: 1fr 1fr; }
   .map-legend { font-size: 10px; padding: 0.35rem 0.5rem; }
-  #music-canvas { height: 260px; }
-  .music-wrap { min-height: 260px; }
-  .music-quote { width: 100%; margin-left: 0; }
+  .player-layout { grid-template-columns: 1fr; }
+  .pl-list { max-height: 280px; }
   .cmd-line { padding: 0.6rem 0.8rem; }
-  .nd-gallery img { width: 100px; height: 75px; }
+  .tl-gallery { grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); }
+  .tl-thumb img { height: 80px; }
   .help-row { grid-template-columns: 110px 1fr; }
   .career-timeline { padding-left: 1.2rem; }
   .career-stage::before { left: -1.2rem; }
   .stage-gallery img { width: 100px; height: 75px; }
+  .career-gallery-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+  .gallery-thumb img { height: 80px; }
+  .timeline-wrap { padding-left: 1.5rem; }
+  .tl-rail { left: -1.5rem; }
   #boot-log { font-size: 11px; }
+  .vinyl { width: 140px; height: 140px; }
 }
 
 @media (max-width: 480px) {
