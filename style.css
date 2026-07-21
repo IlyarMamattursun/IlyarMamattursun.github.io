@@ -214,6 +214,32 @@ html, body {
   display: grid; grid-template-columns: auto 1fr;
   gap: 1.5rem; align-items: start;
 }
+/* 人生信条卡片 */
+.whoami-card.creed-card {
+  grid-column: 1 / -1;
+  border-color: var(--amber-faint);
+  background: linear-gradient(135deg, rgba(232,168,56,0.06), rgba(232,168,56,0.02));
+  position: relative;
+  overflow: hidden;
+}
+.creed-card::before {
+  content: "\201C";
+  position: absolute; top: -0.5rem; left: 0.6rem;
+  font-size: 4rem; color: var(--amber-faint);
+  font-family: Georgia, serif; line-height: 1;
+  opacity: 0.5;
+}
+.creed-label {
+  font-size: 11px; color: var(--text-faint);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.creed-text {
+  font-size: 16px; color: var(--amber-bright);
+  line-height: 1.8; font-weight: 500;
+  padding-left: 1.5rem; position: relative; z-index: 1;
+}
+.creed-text .hl-soft { color: var(--text); font-weight: 400; }
 .id-avatar {
   width: 110px; height: 146px; border-radius: 4px;
   object-fit: cover; border: 1px solid var(--amber-dim);
